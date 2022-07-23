@@ -1,5 +1,5 @@
 # vrx-control
-Control implementation on Virtual RobotX (VRX) simulator
+Control implementation on Virtual RobotX (VRX) simulator as part of NTU-India connect Research internship
 
 ## Build
 This python script can be used with [VRX simulator](https://github.com/osrf/vrx). Follow their [tutoral](https://github.com/osrf/vrx/wiki/tutorials) page to install the VRX simulator environment.

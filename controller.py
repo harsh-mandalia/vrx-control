@@ -1,13 +1,4 @@
 #!/usr/bin/env python
-# [-3.2953384616321615e-06, -5.340189979056147e-07, 4.189534846467222e-08, -2.652429134862454e-07, -8.386605260178179e-08]
-# [1.1131960826060772e-06, 5.606295814726696e-07, 4.606478135779979e-07, 3.6862991743710135e-07, 3.149088088774174e-07, 2.70247319814929e-07, 2.5362814480739527e-07, 2.2407572974748879e-07, 2.3368480829588233e-07, 2.1390390962385763e-07]
-# [5.365724215197658e-06, 5.621772219422619e-06, 4.910860476473387e-06, 5.245029991236806e-06, 4.428555469182062e-06, 4.240771542517596e-06, 6.2795566560001324e-06, 5.2244505083659125e-06, 5.367395261055252e-06, 6.82533927966397e-06]
-# [6.389234582319021e-06, 6.187770107828242e-06, 5.559184454593598e-06, 5.405926129222871e-06, 4.7196061026012875e-06, 4.447100698446952e-06, 4.813219904387886e-06, 4.825184474493705e-06, 4.782899387562616e-06, 5.418362913714987e-06, 4.991161108443861e-06, 5.0980040567975065e-06, 5.043835215805174e-06, 5.450864576084144e-06, 5.500635214977604e-06, 5.230542133708556e-06, 5.687689244839919e-06, 5.0567166973922975e-06, 5.674845739325149e-06, 6.071254006731575e-06]
-# [5.210624253241465e-06, 5.404897557767225e-06, 4.715225721690307e-06, 4.669100613844491e-06, 4.699731696009551e-06, 4.44700715711088e-06, 4.550648592345003e-06, 5.156495585240827e-06, 4.533665997232219e-06, 3.8003209376188955e-06]
-
-# [5.679457489367829e-06, 5.335335189517189e-06, 5.22824356502312e-06, 5.1019241766840094e-06, 5.122089594639713e-06, 4.674095704875979e-06, 4.905952853677331e-06, 4.98071092509339e-06, 5.010703169345867e-06, 4.785462105609026e-06]
-
-
 
 import rospy
 from std_msgs.msg import Float32
@@ -18,8 +9,6 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import pickle
 
-# latitude_d = -33.72276383094204
-# longitude_d = 150.67398401835345
 latitude_0 = -33.7227685
 longitude_0 = 150.6739911
 
@@ -173,19 +162,11 @@ def main_code():
             
             error_dist = sign*np.sqrt((longitude_d-longitude)**2+(latitude_d-latitude)**2)
             
-            # middle_thrust_ilc_new[count][0] = 0.9*get_ilc(middle_thrust_ilc_old,t) + 5000*error_dist
-            # middle_thrust_ilc_new[count][1] = t
             middle_thrust_ilc = 0.9*get_ilc(middle_thrust_ilc_old,t) + 5000*error_dist
             middle_thrust_ilc_new.append([middle_thrust_ilc, t])
-            # middle_thrust_ilc = middle_thrust_ilc_new[count][0]
-            # print(middle_thrust_ilc_new[:count])
-            # middle_thrust_ilc_old[count] = middle_thrust_ilc_new[count]
-            
-            #add middle_thrust_ilc_new, middle_thrust_ilc_old a function of time
 
             t2 = rospy.get_time()
 
-            # error_dist=np.sqrt((longitude_d-longitude)**2+(latitude_d-latitude)**2)
             if t2!=t1:
                 error_dist_d = (error_dist-error_dist_old)/(t2-t1)
             error_dist_old = error_dist
@@ -219,14 +200,8 @@ def main_code():
             plt.plot(t+k*1.5*t_f,latitude_d, ".r")
             plt.plot(t+k*1.5*t_f,latitude, ".b")
             plt.pause(0.001)
-            # plt.plot()
-
-            # rospy.loginfo("from main")
-            # print(round(latitude,11), round(longitude,11), round(euler[2],4), round(mc,4), count)
-            # print(round(middle_thrust_ilc,5), round(kp*error_dist,5), round(kd*error_dist_d,5), round(ki*error_dist_i,5))
             
             count+=1
-            # if (latitude!=0 and longitude!=0 and euler[2]!=0):
             error_sum += abs(error_dist)
             if (t>1.5*t_f):
                 gazebo_pub.publish(model_state)
